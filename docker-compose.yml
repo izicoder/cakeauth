@@ -1,0 +1,23 @@
+services:
+  db:
+    container_name: database
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${postgres_pass}
+
+  adminer:
+    container_name: panel
+    image: adminer
+    restart: always
+    ports:
+      - ${panel_port}:8080
+
+  app:
+    container_name: app
+    build:
+      dockerfile: app.dockerfile
+    ports:
+      - ${app_port}:9999
+    environment:
+      DATABASE_URL: ${db_url}
