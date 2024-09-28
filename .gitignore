@@ -2,3 +2,6 @@ vendor
 .vscode
 *.exe
 .env
+dbtest.sql
+todo.txt
+test.rest

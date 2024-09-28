@@ -3,12 +3,16 @@ package main
 import (
 	"fmt"
 	"izicoder/cakeauth/core"
-	"log"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
 	fmt.Println("starting")
-	// core.TestDB()
-	log.Fatal(core.StartServer())
+	err := core.StartServer()
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println("stopping")
 }

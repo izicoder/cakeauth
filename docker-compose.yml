@@ -3,21 +3,30 @@ services:
     container_name: database
     image: postgres
     restart: always
+    ports:
+      - ${port_db}:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
-      POSTGRES_PASSWORD: ${postgres_pass}
+      POSTGRES_PASSWORD: ${pg_pass}
+      POSTGRES_DB: ${pg_db}
 
-  adminer:
-    container_name: panel
+  panel:
+    container_name: admin_panel
     image: adminer
     restart: always
     ports:
-      - ${panel_port}:8080
+      - ${port_panel}:8080
 
   app:
     container_name: app
     build:
       dockerfile: app.dockerfile
     ports:
-      - ${app_port}:9999
-    environment:
-      DATABASE_URL: ${db_url}
+      - ${port_app}:80
+    depends_on:
+      db:
+        condition: service_healthy

@@ -1,11 +1,10 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:latest
+FROM golang:alpine
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-COPY main.go ./
+COPY go.mod go.sum main.go ./
 COPY core ./core/
 
 RUN go mod download
